@@ -12,7 +12,7 @@ COPY pyproject.toml* poetry.lock* ./
 
 # poetryでライブラリをインストール (pyproject.tomlが既にある場合)
 RUN poetry config virtualenvs.in-project true
-RUN if [ -f pyproject.toml ]; then poetry install; fi
+RUN if [ -f pyproject.toml ]; then poetry install --no-dev; fi
 
-# uvicornのサーバーを立ち上げる
-ENTRYPOINT ["poetry", "run", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--reload"]
+EXPOSE 8000
+CMD ["poetry", "run", "gunicorn", "-w", "1", "-k", "uvicorn.workers.UvicornWorker", "--capture-output", "--log-level", "warning", "--access-logfile", "-", "--bind", ":8000", "example_server.main:app"]
