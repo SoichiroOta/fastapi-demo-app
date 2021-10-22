@@ -13,6 +13,9 @@ up-build:
 down:
 	docker-compose down
 
+db-migrate:
+	docker-compose exec demo-app poetry run python -m api.migrate_db
+
 test:
 	make install
 	docker-compose run --rm demo-app poetry run pytest --cov=api tests

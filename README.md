@@ -2,8 +2,16 @@
 
 ## Migrate DB
 
-`docker-compose exec demo-app poetry run python -m api.migrate_db`
+`make db-migrate`
 
 ## Run test
 
-`docker-compose exec demo-app poetry run pytest`
+`make test`
+
+## Run lint
+
+`make lint`
+
+## Run format
+
+`make format`
