@@ -1,16 +1,14 @@
-from typing import List, Tuple, Optional
-from sqlalchemy.engine import Result
+from typing import List, Optional, Tuple
+
 from sqlalchemy import select
-from typing import List, Tuple
+from sqlalchemy.engine import Result
 from sqlalchemy.ext.asyncio import AsyncSession
 
 import api.models.task as task_model
 import api.schemas.task as task_schema
 
 
-async def create_task(
-    db: AsyncSession, task_create: task_schema.TaskCreate
-) -> task_model.Task:
+async def create_task(db: AsyncSession, task_create: task_schema.TaskCreate) -> task_model.Task:
     task = task_model.Task(**task_create.dict())
     db.add(task)
     await db.commit()
@@ -32,9 +30,7 @@ async def get_tasks_with_done(db: AsyncSession) -> List[Tuple[int, str, bool]]:
 
 
 async def get_task(db: AsyncSession, task_id: int) -> Optional[task_model.Task]:
-    result: Result = await db.execute(
-        select(task_model.Task).filter(task_model.Task.id == task_id)
-    )
+    result: Result = await db.execute(select(task_model.Task).filter(task_model.Task.id == task_id))
     task: Optional[Tuple[task_model.Task]] = result.first()
     # 要素が一つであってもtupleで返却されるので１つ目の要素を取り出す
     return task[0] if task is not None else None

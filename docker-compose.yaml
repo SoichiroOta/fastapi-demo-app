@@ -7,7 +7,10 @@ services:
       - .:/src
     ports:
       - 8000:8000 # ホストマシンのポート8000を、docker内のポート8000に接続する
-
+    command: > # uvicornのサーバーを立ち上げる
+      poetry run
+      uvicorn api.main:app
+      --host 0.0.0.0 --reload
   db:
     image: mysql:8.0
     environment:
