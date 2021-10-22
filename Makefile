@@ -15,7 +15,7 @@ down:
 
 test:
 	make install
-	docker-compose run --rm demo-app poetry run pytest tests
+	docker-compose run --rm demo-app poetry run pytest --cov=api tests
 
 lint:
 	make install
