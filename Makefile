@@ -1,6 +1,9 @@
 build:
 	docker-compose build
 
+update:
+		docker-compose run --rm demo-app poetry update
+
 install:
 	docker-compose run --rm demo-app poetry install
 
@@ -22,14 +25,12 @@ test:
 
 lint:
 	make install
-	docker-compose run --rm demo-app \
-	poetry run flake8 tests api && \
-	poetry run isort --check --diff tests api && \
-	poetry run black --check tests api && \
-	poetry run mypy tests api
+	docker-compose run --rm demo-app poetry run flake8 tests api
+	docker-compose run --rm demo-app poetry run isort --check --diff tests api
+	docker-compose run --rm demo-app poetry run black --check tests api
+	docker-compose run --rm demo-app poetry run mypy tests api
 
 format:
 	make install
-	docker-compose run --rm demo-app \
-	poetry run isort tests api && \
-	poetry run black tests api
+	docker-compose run --rm demo-app poetry run isort tests api
+	docker-compose run --rm demo-app poetry run black tests api

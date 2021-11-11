@@ -1,3 +1,5 @@
+from typing import AsyncGenerator
+
 import pytest
 import starlette.status
 from httpx import AsyncClient
@@ -11,7 +13,7 @@ ASYNC_DB_URL = "sqlite+aiosqlite:///:memory:"
 
 
 @pytest.fixture
-async def async_client() -> AsyncClient:
+async def async_client() -> AsyncGenerator[AsyncClient, None]:
     # Async用のengineとsessionを作成
     async_engine = create_async_engine(ASYNC_DB_URL, echo=True)
     async_session = sessionmaker(autocommit=False, autoflush=False, bind=async_engine, class_=AsyncSession)
